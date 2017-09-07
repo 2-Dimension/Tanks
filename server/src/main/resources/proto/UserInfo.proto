@@ -1,0 +1,16 @@
+package message;
+option java_package = "message";
+option java_outer_classname = "UserInfo";
+
+import "proto/BaseCommand.proto";
+
+message UserInfoCommand {
+
+    extend ServerCommand {
+
+        optional UserInfoCommand registerCommand = 11;
+    }
+
+    required string username = 1;
+    required string passWord = 2;
+}

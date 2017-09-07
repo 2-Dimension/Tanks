@@ -1,0 +1,28 @@
+package message;
+option java_package = "message";
+option java_outer_classname = "LoginRequest";
+
+import "proto/BaseCommand.proto";
+
+message RegisterCommand {
+
+    extend ServerCommand {
+
+        optional RegisterCommand registerCommand = 11;
+    }
+
+    required string username = 1;
+    required string passWord = 2;
+}
+
+
+message LoginCommand {
+
+    extend ServerCommand {
+
+        optional LoginCommand loginCommand = 12;
+    }
+
+    required string username = 1;
+    required string passWord = 2;
+}

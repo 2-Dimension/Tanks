@@ -1,0 +1,17 @@
+package message;
+option java_package = "message";
+option java_outer_classname = "BaseCommand";
+
+enum CommandType {
+
+    COMMAND_TYPE_REGISTER = 11;
+
+    COMMAND_TYPE_LOGIN = 12;
+}
+
+message ServerCommand {
+
+    optional CommandType commandType = 1;
+
+    extensions 10 to max;
+}
