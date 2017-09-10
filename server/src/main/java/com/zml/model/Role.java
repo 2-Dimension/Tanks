@@ -19,5 +19,11 @@ public class Role extends BaseModel{
     private Float hp;           //血量
     private Float attackSpeed;  //攻击速度
 
+    private Float rot_x;    //旋转
+    private Float rot_y;
+    private Float rot_z;
+
+    private Float gunRot;   //炮塔的目标旋转角度
+    private Float gunRoll;  //炮管的目标旋转角度
 
 }

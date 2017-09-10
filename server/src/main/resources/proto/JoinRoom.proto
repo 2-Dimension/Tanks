@@ -1,0 +1,26 @@
+package message;
+option java_package = "message";
+option java_outer_classname = "UpdateRole";
+
+import "proto/BaseCommand.proto";
+
+message UpdateRoleCommand {
+
+    extend ServerCommand {
+
+        optional UpdateRoleCommand updateRoleCommand = 13;
+    }
+
+    required string id = 1;
+    required string username = 2;
+    required string hp = 3;
+    required string attack = 4;
+    required string position_x = 5;
+    required string position_y = 6;
+    required string position_z  = 7;
+    required string rot_x = 8;
+    required string rot_y = 9;
+    required string rot_z = 10;
+    required string gun_rot = 11;
+    required string gun_roll = 12;
+}

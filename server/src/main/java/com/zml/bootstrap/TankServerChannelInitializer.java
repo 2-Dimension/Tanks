@@ -1,5 +1,6 @@
 package com.zml.bootstrap;
 
+import com.zml.command.BaseCommand;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.LineBasedFrameDecoder;
@@ -15,7 +16,7 @@ import io.netty.handler.codec.string.StringDecoder;
 public class TankServerChannelInitializer extends ChannelInitializer<SocketChannel>  {
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         socketChannel.pipeline().addLast(new ProtobufVarint32FrameDecoder());
-//        socketChannel.pipeline().addLast(new ProtobufDecoder(LoginRequest.LoginCommand.getDefaultInstance()));
+        socketChannel.pipeline().addLast(new ProtobufDecoder(BaseCommand.ServerCommand.getDefaultInstance()));
         socketChannel.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
         socketChannel.pipeline().addLast(new ProtobufEncoder());
         socketChannel.pipeline().addLast(new TankServerHandler());

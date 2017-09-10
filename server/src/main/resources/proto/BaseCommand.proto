@@ -4,9 +4,11 @@ option java_outer_classname = "BaseCommand";
 
 enum CommandType {
 
-    COMMAND_TYPE_REGISTER = 11;
-
-    COMMAND_TYPE_LOGIN = 12;
+    UpdateRole = 13;
+    JoinRoom = 14;
+    GetRoleList = 15;
+    Shoot = 16;
+    Hit = 17;
 }
 
 message ServerCommand {
@@ -14,4 +16,84 @@ message ServerCommand {
     optional CommandType commandType = 1;
 
     extensions 10 to max;
+}
+
+message UpdateRoleCommand {
+
+    extend ServerCommand {
+
+        optional UpdateRoleCommand updateRoleCommand = 13;
+    }
+
+    optional int32 id = 1;
+    optional string username = 2;
+    optional int32 hp = 3;
+    optional int32 attack = 4;
+    optional float position_x = 5;
+    optional float position_y = 6;
+    optional float position_z  = 7;
+    optional float rot_x = 8;
+    optional float rot_y = 9;
+    optional float rot_z = 10;
+    optional float gun_rot = 11;
+    optional float gun_roll = 12;
+}
+
+message JoinRoomCommand{
+
+    extend ServerCommand {
+
+        optional JoinRoomCommand joinRoomCommand = 14;
+    }
+
+    optional int32 id = 1;
+    optional string username = 2;
+    optional int32 hp = 3;
+    optional int32 attack = 4;
+    optional float position_x = 5;
+    optional float position_y = 6;
+    optional float position_z  = 7;
+    optional float rot_x = 8;
+    optional float rot_y = 9;
+    optional float rot_z = 10;
+    optional float gun_rot = 11;
+    optional float gun_roll = 12;
+
+}
+
+message GetRoleListCommand{
+
+    extend ServerCommand {
+
+        optional GetRoleListCommand getRoleCommand = 15;
+    }
+    repeated UpdateRoleCommand roleList= 1;
+}
+message ShootCommand{
+
+    extend ServerCommand {
+
+        optional ShootCommand shootCommand = 16;
+    }
+
+    required float position_x = 5;
+    required float position_y = 6;
+    required float position_z  = 7;
+    required float rot_x = 8;
+    required float rot_y = 9;
+    required float rot_z = 10;
+
+    optional int32 id = 11;
+
+}
+message HitCommand{
+
+    extend ServerCommand {
+
+        optional HitCommand hitCommand = 17;
+    }
+
+    required int32 enemy_id = 1;
+    required int32 damage = 2;
+    optional int32 id = 3;
 }
