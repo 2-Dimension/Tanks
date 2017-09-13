@@ -1,6 +1,7 @@
 package com.zml.bootstrap;
 
 import com.zml.command.BaseCommand;
+import com.zml.command.TankCommand;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -41,12 +42,23 @@ public class TankUdpClient {
             ChannelFuture f= b.bind(0).sync();
             Channel channel = f.channel();
             String data = "hello world";
-            BaseCommand.HitCommand.Builder builder = BaseCommand.HitCommand.newBuilder();
-            builder.setDamage(10);
-            builder.setEnemyId(2);
-            builder.setId(1);
-            BaseCommand.HitCommand build = builder.build();
-            channel.writeAndFlush(new DatagramPacket(Unpooled.copiedBuffer(build.toByteArray()),new InetSocketAddress("127.0.0.1",port)));
+//            BaseCommand.HitCommand.Builder builder = BaseCommand.HitCommand.newBuilder();
+//            builder.setDamage(10);
+//            builder.setEnemyId(2);
+//            builder.setId(1);
+//            BaseCommand.HitCommand build = builder.build();
+//            BaseCommand.ServerCommand.Builder builder1 = BaseCommand.ServerCommand.newBuilder();
+//            builder1.setCommandType(BaseCommand.CommandType.Hit);
+//
+//            builder1.setExtension(BaseCommand.HitCommand.hitCommand,build);
+
+            TankCommand.HitCommand.Builder hitBuilder = TankCommand.HitCommand.newBuilder();
+            hitBuilder.setDamage(10);
+            hitBuilder.setId(1);
+            hitBuilder.setCommandType(TankCommand.CommandType.Hit);
+            hitBuilder.setEnemyId(2);
+            byte[] bytes = hitBuilder.build().toByteArray();
+            channel.writeAndFlush(new DatagramPacket(Unpooled.copiedBuffer(),new InetSocketAddress("127.0.0.1",port)));
             //等待服务器监听端口关闭
             channel.closeFuture().await();
         }catch (Exception e){

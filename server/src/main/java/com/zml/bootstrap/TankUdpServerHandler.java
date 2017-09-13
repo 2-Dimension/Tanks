@@ -1,6 +1,8 @@
 package com.zml.bootstrap;
 
+import com.google.protobuf.ExtensionRegistry;
 import com.zml.command.BaseCommand;
+import com.zml.command.TankCommand;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -26,9 +28,22 @@ public class TankUdpServerHandler extends SimpleChannelInboundHandler<DatagramPa
         ByteBuf data = datagramPacket.content();
         byte[] b = new byte[data.readableBytes()];
         data.readBytes(b);
-        BaseCommand.HitCommand hitCommand = BaseCommand.HitCommand.parseFrom(b);
-        System.out.println("接收到客户端的消息：damage-"+hitCommand.getDamage());
-        BaseCommand.ServerCommand serverCommand = BaseCommand.ServerCommand.parseFrom(b);
-        System.out.println("commandType:"+serverCommand.getCommandType());
+//        ExtensionRegistry registry = ExtensionRegistry.newInstance();
+//        BaseCommand.registerAllExtensions(registry);
+//
+//        BaseCommand.ServerCommand serverCommand = BaseCommand.ServerCommand.parseFrom(b,registry);
+//        System.out.println("commandType:"+serverCommand.getCommandType());
+//        BaseCommand.HitCommand extension = serverCommand.getExtension(BaseCommand.HitCommand.hitCommand);
+//        System.out.println("damage:"+extension.getDamage());
+//        System.out.println("enemyId:"+extension.getEnemyId());
+//        System.out.println("id:"+extension.getId());
+        TankCommand.HitCommand hitCommand = TankCommand.HitCommand.parseFrom(b);
+
+        System.out.println("commandType:"+hitCommand.getCommandType());
+        System.out.println("damage:"+hitCommand.getDamage());
+//        System.out.println("enemyId:"+extension.getEnemyId());
+//        BaseCommand.HitCommand hitCommand = BaseCommand.HitCommand.parseFrom(b);
+//        System.out.println("接收到客户端的消息：damage-"+hitCommand.getDamage());
+
     }
 }
