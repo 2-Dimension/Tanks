@@ -18,7 +18,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class TankUdpServer {
     public void bind(int port) throws Exception{
 
-//        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
 
         //配置服务端的NIO线程组
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -46,6 +46,12 @@ public class TankUdpServer {
 
     }
 
+    //初始化spring
+    void initSpring(){
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        Runtime.getRuntime().addShutdownHook(new Thread(new ShutdownHook(context)));
+    }
 
     public static void main(String[] args) throws Exception {
         int port = 8081;
