@@ -1,6 +1,8 @@
 package com.zml.bootstrap;
 
+import com.zml.command.TankCommand;
 import com.zml.common.SystemManager;
+import com.zml.common.TankMessage;
 import com.zml.service.HandlerService;
 import com.zml.util.ConvertUtil;
 import io.netty.buffer.ByteBuf;
@@ -23,9 +25,11 @@ public class TankUdpServerHandler extends SimpleChannelInboundHandler<DatagramPa
         byte[] orderByte = new byte[2];
         data.readBytes(orderByte);
         short order = ConvertUtil.getShort(orderByte);
-
         String serviceName = SystemManager.getInstance().getOrderHandlerMap().get(order + "");
 
-        handlerService.submit(channelHandlerContext,datagramPacket,serviceName);
+        byte[] bodyByte = new byte[data.readableBytes()];
+        data.readBytes(bodyByte);
+        TankMessage message = new TankMessage(order,bodyByte,datagramPacket.sender());
+        handlerService.submit(channelHandlerContext,message,serviceName);
     }
 }

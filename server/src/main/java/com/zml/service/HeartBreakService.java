@@ -29,7 +29,5 @@ public class HeartBreakService implements Runnable{
 
         ConcurrentHashMap heartBreakMap = SystemManager.getInstance().getHeartBreakMap();
         heartBreakMap.put(sender,System.currentTimeMillis());
-
-
     }
 }

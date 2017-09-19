@@ -1,5 +1,6 @@
 package com.zml.service;
 
+import com.zml.common.TankMessage;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.DatagramPacket;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,12 @@ public class HandlerService {
     private static ExecutorService executorService =
             Executors.newFixedThreadPool(MAX_THREAD_NUM);
 
-    public static void submit(ChannelHandlerContext ctx, DatagramPacket datagramPacket, String serviceName)
+    public static void submit(ChannelHandlerContext ctx, TankMessage message, String serviceName)
             throws InstantiationException, IllegalAccessException {
 
         AbstractService service = (AbstractService) context.getBean(serviceName);
-        service.setCtx(ctx);
-        service.setDatagramPacket(datagramPacket);
+        service.setChannel(ctx.channel());
+        service.setMessage(message);
         executorService.submit(service);
     }
 

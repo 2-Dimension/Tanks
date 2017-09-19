@@ -1,5 +1,6 @@
 package com.zml.service;
 
+import com.zml.common.TankMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.DatagramPacket;
@@ -15,6 +16,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class AbstractService implements Runnable{
-    protected ChannelHandlerContext ctx;
-    protected DatagramPacket datagramPacket;
+    protected Channel channel;
+    protected TankMessage message;
 }

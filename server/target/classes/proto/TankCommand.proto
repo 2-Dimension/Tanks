@@ -10,12 +10,12 @@ enum CommandType {
     GetRoleList = 3;
     Shoot = 4;
     Hit = 5;
+    Move = 6;
 }
 
 
 message UpdateRoleCommand {
 
-    required CommandType commandType = 1;
 
     optional int32 id = 2;
     optional string username = 3;
@@ -34,33 +34,31 @@ message UpdateRoleCommand {
 message JoinRoomCommand{
 
 
-    required CommandType commandType = 1;
+
 
     optional int32 id = 2;
-       optional string username = 3;
-       optional int32 hp = 4;
-       optional int32 attack = 5;
-       optional float position_x = 6;
-       optional float position_y = 7;
-       optional float position_z  = 8;
-       optional float rot_x = 9;
-       optional float rot_y = 10;
-       optional float rot_z = 11;
-       optional float gun_rot = 12;
-       optional float gun_roll = 13;
+    optional string username = 3;
+    optional int32 hp = 4;
+    optional int32 attack = 5;
+    optional float position_x = 6;
+    optional float position_y = 7;
+    optional float position_z  = 8;
+    optional float rot_x = 9;
+    optional float rot_y = 10;
+    optional float rot_z = 11;
+    optional float gun_rot = 12;
+    optional float gun_roll = 13;
 
 }
 
 message GetRoleListCommand{
 
 
-    required CommandType commandType = 1;
 
     repeated UpdateRoleCommand roleList= 2;
 }
 message ShootCommand{
 
-    required CommandType commandType = 1;
 
     required float position_x = 2;
     required float position_y = 3;
@@ -74,9 +72,12 @@ message ShootCommand{
 }
 message HitCommand{
 
-    required CommandType commandType = 1;
 
     required int32 enemy_id = 2;
     required int32 damage = 3;
     optional int32 id = 4;
+}
+
+message MoveCommand{
+    required float power = 1; //[0, 1]
 }

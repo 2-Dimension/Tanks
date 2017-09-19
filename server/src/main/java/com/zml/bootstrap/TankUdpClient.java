@@ -58,7 +58,7 @@ public class TankUdpClient {
             hitBuilder.setCommandType(TankCommand.CommandType.Hit);
             hitBuilder.setEnemyId(2);
             byte[] bytes = hitBuilder.build().toByteArray();
-            channel.writeAndFlush(new DatagramPacket(Unpooled.copiedBuffer(),new InetSocketAddress("127.0.0.1",port)));
+            channel.writeAndFlush(new DatagramPacket(Unpooled.copiedBuffer(bytes),new InetSocketAddress("127.0.0.1",port)));
             //等待服务器监听端口关闭
             channel.closeFuture().await();
         }catch (Exception e){
