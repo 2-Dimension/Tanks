@@ -1,6 +1,5 @@
 package com.zml.service;
 
-import com.zml.command.BaseCommand;
 import com.zml.command.TankCommand;
 import com.zml.common.Const;
 import com.zml.common.SystemManager;
@@ -11,10 +10,11 @@ import io.netty.channel.socket.DatagramPacket;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.RandomUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.net.InetSocketAddress;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Description:
@@ -27,10 +27,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Setter
 public class LoginService extends AbstractService {
 
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public void run() {
         InetSocketAddress sender = message.getSender();
 
+        logger.info("----------收到登录请求--------");
         //随机生成一个角色
         Role newRole = new Role();
         newRole.setId(SystemManager.getInstance().generateId());
