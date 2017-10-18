@@ -16,10 +16,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * Date: 2017/9/11
  * Time: 16:24
  */
-@Service("HeartBreakService")
+@Service("HeartBeatService")
 @Getter
 @Setter
-public class HeartBreakService implements Runnable{
+public class HeartBeatService implements Runnable{
 
     private Channel channel;
     private DatagramPacket datagramPacket;

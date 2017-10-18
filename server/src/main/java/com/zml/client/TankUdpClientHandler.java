@@ -1,11 +1,9 @@
-package com.zml.bootstrap;
+package com.zml.client;
 
-import com.zml.command.BaseCommand;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.DatagramPacket;
-import io.netty.util.CharsetUtil;
 
 
 /**
@@ -16,8 +14,6 @@ public class TankUdpClientHandler extends SimpleChannelInboundHandler<DatagramPa
 
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, DatagramPacket datagramPacket) throws Exception {
         ByteBuf data = datagramPacket.content();
-        BaseCommand.HitCommand hitCommand = BaseCommand.HitCommand.parseFrom(data.array());
-        System.out.println("接收到客户端的消息：damage-"+hitCommand.getDamage());
 
         System.out.printf("sender"+datagramPacket.sender());
 

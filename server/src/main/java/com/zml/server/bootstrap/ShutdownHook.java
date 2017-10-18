@@ -1,4 +1,4 @@
-package com.zml.bootstrap;
+package com.zml.server.bootstrap;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

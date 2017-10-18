@@ -16,7 +16,7 @@
 	<context:annotation-config />
 	<!-- 组件扫描 -->
 	<!-- <context:component-scan base-package="com.xmg.p2p.base.service;com.xmg.p2p.business.service"/> -->
-	<context:component-scan base-package="com.zml.demo" />
+	<context:component-scan base-package="com.zml" />
 	<!-- 加载配置文件 -->
 	<!-- 第一种方式 <context:property-placeholder location="classpath:*.properties" 
 		/> -->
@@ -31,35 +31,40 @@
 		</property>
 	</bean>
 
-	<!-- 1:数据源 -->
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="${jdbc.driverClassName}" />
-		<property name="url" value="${jdbc.url}" />
-		<property name="username" value="${jdbc.username}" />
-		<property name="password" value="${jdbc.password}" />
-	</bean>
+	<!--&lt;!&ndash; 1:数据源 &ndash;&gt;-->
+	<!--<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"-->
+		<!--destroy-method="close">-->
+		<!--<property name="driverClassName" value="${jdbc.driverClassName}" />-->
+		<!--<property name="url" value="${jdbc.url}" />-->
+		<!--<property name="username" value="${jdbc.username}" />-->
+		<!--<property name="password" value="${jdbc.password}" />-->
+	<!--</bean>-->
 
 
-	<!-- 2:sqlSessionFactory -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"></property>
-		<property name="typeAliasesPackage" value="com.zml.demo.domain"></property>
-		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
-		<property name="mapperLocations"
-			value="classpath:mapper/*.xml"></property>
-	</bean>
-	<!-- mapper扫描包 -->
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.zml.demo.mapper" />
-		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
-	</bean>
+	<!--&lt;!&ndash; 2:sqlSessionFactory &ndash;&gt;-->
+	<!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+		<!--<property name="dataSource" ref="dataSource"></property>-->
+		<!--<property name="typeAliasesPackage" value="com.zml.demo.domain"></property>-->
+		<!--<property name="configLocation" value="classpath:mybatis-config.xml"></property>-->
+		<!--<property name="mapperLocations"-->
+			<!--value="classpath:mapper/*.xml"></property>-->
+	<!--</bean>-->
+	<!--&lt;!&ndash; mapper扫描包 &ndash;&gt;-->
+	<!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+		<!--<property name="basePackage" value="com.zml.demo.mapper" />-->
+		<!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />-->
+	<!--</bean>-->
 
-	<!-- 3:事务管理器 -->
-	<bean id="txManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
+	<!--&lt;!&ndash; 3:事务管理器 &ndash;&gt;-->
+	<!--<bean id="txManager"-->
+		<!--class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
+		<!--<property name="dataSource" ref="dataSource" />-->
+	<!--</bean>-->
+	<!---->
+	<!---->
+
+
+
 	<!-- 4:事务AOP -->
 	<!--<tx:advice id="crudAdvice" transaction-manager="txManager">-->
 		<!--<tx:attributes>-->

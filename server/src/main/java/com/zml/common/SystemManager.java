@@ -1,6 +1,10 @@
 package com.zml.common;
 
 import com.zml.model.Role;
+import io.netty.channel.EventLoopGroup;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.context.ApplicationContext;
 
 import java.net.InetSocketAddress;
 import java.util.HashMap;
@@ -15,32 +19,34 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class SystemManager {
     private SystemManager(){
+        userOrderHandlerMap = new HashMap<Short, String>();
+        userOrderHandlerMap.put(Const.HeartBreakCommand,"HeartBreak");  //心跳
+        userOrderHandlerMap.put(Const.LoginRequestCommand,"UserLoginUdpService");  //登录
 
+        userOrderHandlerMap.put(Const.RegistRequestCommand,"UserRegistTestUdpService");  //测试  upd位置同步使用
+        userOrderHandlerMap.put(Const.PlayerInfoCommand,"PlayerInfoTestUdpService");  //测试 upd位置同步使用
+        userOrderHandlerMap.put(Const.QuitGameCommand,"QuitGameTestUdpService");  //测试 upd位置同步使用
     }
-
     private static SystemManager systemManager = new SystemManager();
+
+    @Getter
+    @Setter
+    private ApplicationContext context ;        //spring上下文
+
+    @Setter
+    private EventLoopGroup udpWorkerGroup;
+    @Setter
+    private EventLoopGroup tcpBossGroup;
+    @Setter
+    private EventLoopGroup tcpWorkerGroup;
 
     private ConcurrentHashMap connections = new ConcurrentHashMap<InetSocketAddress,Role>();      //存储所有的连接
     private ConcurrentHashMap roles = new ConcurrentHashMap<Integer,Role>();      //存储所有的角色
 
-    private static HashMap<String,String> orderHandlerMap = new HashMap<String,String>();           //存储命令和服务对应map
     private ConcurrentHashMap heartBreakMap = new ConcurrentHashMap<InetSocketAddress,Long>();      //存储所有的心跳
     public static AtomicInteger id  = new AtomicInteger(0);
-
-    static{
-        orderHandlerMap.put("0","HeartBreak");  //心跳
-        orderHandlerMap.put("1","Login");  //登录
-        orderHandlerMap.put("2","Quit");  //退出
-
-        orderHandlerMap.put("100","UpdateRole");  //更新角色信息
-        orderHandlerMap.put("101","GetRoleList");  //获取所有角色信息
-
-        orderHandlerMap.put("201","Move");  //移动
-        orderHandlerMap.put("202","Turn");  //转向
-        orderHandlerMap.put("203","Fire");  //开火
-        orderHandlerMap.put("204","Hit");  //击中
-
-    }
+    @Getter
+    private HashMap<Short,String> userOrderHandlerMap;           //存储命令和服务对应map
 
     public static SystemManager getInstance(){
         return systemManager;
@@ -75,11 +81,18 @@ public class SystemManager {
         return id.getAndIncrement();
     }
 
-    public HashMap<String, String> getOrderHandlerMap() {
-        return orderHandlerMap;
-    }
 
     public ConcurrentHashMap getHeartBreakMap() {
         return heartBreakMap;
+    }
+
+    public void shutdownServer(){
+        udpWorkerGroup.shutdownGracefully();
+        System.out.println("-------udp服务器关闭----------");
+        tcpBossGroup.shutdownGracefully();
+        System.out.println("-------tcp boss服务器关闭----------");
+        tcpWorkerGroup.shutdownGracefully();
+        System.out.println("-------tcp worker服务器关闭----------");
+
     }
 }

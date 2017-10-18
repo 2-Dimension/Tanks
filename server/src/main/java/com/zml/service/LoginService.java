@@ -1,20 +1,11 @@
 package com.zml.service;
 
-import com.zml.command.TankCommand;
-import com.zml.common.Const;
-import com.zml.common.SystemManager;
-import com.zml.model.Role;
-import com.zml.util.ConvertUtil;
-import io.netty.buffer.Unpooled;
-import io.netty.channel.socket.DatagramPacket;
+import com.zml.server.service.AbstractUdpService;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.net.InetSocketAddress;
 
 /**
  * Description:
@@ -22,43 +13,14 @@ import java.net.InetSocketAddress;
  * Date: 2017/9/11
  * Time: 16:24
  */
-@Service("HeartBreakService")
+@Service("LoginService")
 @Getter
 @Setter
-public class LoginService extends AbstractService {
+public class LoginService extends AbstractUdpService {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public void run() {
-        InetSocketAddress sender = message.getSender();
-
-        logger.info("----------收到登录请求--------");
-        //随机生成一个角色
-        Role newRole = new Role();
-        newRole.setId(SystemManager.getInstance().generateId());
-        newRole.setHp(100);
-        newRole.setAttack(10);
-        newRole.setAttackSpeed(1);
-        newRole.setPosition_x(RandomUtils.nextFloat(0f,10f));
-        newRole.setPosition_y(RandomUtils.nextFloat(0f,10f));
-        newRole.setPosition_z(RandomUtils.nextFloat(0f,10f));
-        SystemManager.getInstance().login(sender,newRole);
-
-        //返回生成的信息
-        TankCommand.UpdateRoleCommand.Builder builder = TankCommand.UpdateRoleCommand.newBuilder();
-
-        builder.setId(newRole.getId());
-        builder.setAttack(newRole.getAttack());
-        builder.setHp(newRole.getHp());
-        builder.setPositionX(newRole.getPosition_x());
-        builder.setPositionY(newRole.getPosition_y());
-        builder.setPositionZ(newRole.getPosition_z());
-
-        TankCommand.UpdateRoleCommand build = builder.build();
-
-        byte[] command = ConvertUtil.getBytes(Const.UpdateRole);
-        DatagramPacket datagramPacketRet = new DatagramPacket(Unpooled.copiedBuffer(command,build.toByteArray()),sender);
-        channel.writeAndFlush(datagramPacketRet);
 
     }
 }
